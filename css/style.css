@@ -1,0 +1,220 @@
+:root {
+  --font-family: "Graphik LC Web", sans-serif;
+  --second-family: "Helvetica Neue", sans-serif;
+  --header-height: 103px;
+}
+
+.content {
+  padding: 0 50px 0 50px;
+  font-family: var(--font-family);
+}
+
+.site-header {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  border-bottom: 1px solid #fff;
+}
+
+.logo {
+  padding: 34px 30px 34px 20px;
+  border-right: 1px solid #fff;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #fff;
+  padding: 16px 8px 15px 42px;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 30px;
+  width: 486px;
+  justify-content: space-between;
+}
+
+.main-nav a {
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.main-nav a:hover,
+.main-nav a:focus {
+  text-decoration: underline;
+}
+
+.address {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  align-items: center;
+  padding: 0 20px 0 42px;
+}
+
+.sub-nav {
+  width: 506px;
+}
+
+.sub-nav ul {
+  display: flex;
+  gap: 25px;
+  justify-content: space-between;
+}
+
+.sub-nav a {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.sub-nav a:hover,
+.sub-nav a:focus {
+  opacity: 0.5;
+  text-decoration: underline;
+}
+
+.contact {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+
+.tel {
+  font-size: 16px;
+  font-weight: 400;
+  padding-right: 20px;
+}
+
+.line-search {
+  border-left: 1px solid #fff;
+  height: 100%;
+}
+
+.search button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  padding-left: 20px;
+}
+
+.search svg {
+  width: 23px;
+  height: 23px;
+}
+
+.pagination {
+  border-bottom: 1px solid #fff;
+}
+
+.pagination-nav {
+  padding: 10px 9px 10px 0;
+}
+
+.pagination-nav ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination-nav a {
+  font-family: var(--second-family);
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 90%;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.text-block {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 40px;
+  padding-bottom: 64px;
+}
+
+.text {
+  max-width: 541px;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
+  gap: 5px;
+  width: 241px;
+  height: 21px;
+}
+
+.pagination-pages_font {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 150%;
+  opacity: 0.5;
+}
+
+.annotation {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.annotation-content {
+  width: 600px;
+  height: 79px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.annotation p {
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 1200px) {
+  .site-header {
+    grid-template-columns: 1fr;
+  }
+
+  .logo {
+    border-right: none;
+    border-bottom: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 980px) {
+  .top-row,
+  .bottom-row {
+    justify-content: center;
+  }
+
+  .contact,
+  .address {
+    display: none;
+  }
+
+  .text-block {
+    flex-direction: column;
+    gap: 20px;
+    flex-direction: column-reverse
+  }
+}
