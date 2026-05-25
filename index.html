@@ -237,7 +237,33 @@
 
       <div class="filters-line"></div>
 
-      <div class="gallery">
+      <div class="gallery" id="gallery">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
         <div class="card"></div>
         <div class="card"></div>
         <div class="card"></div>
@@ -251,8 +277,8 @@
       <div class="button-gallery">
         <div class="pagination-gallery pagination-gallery_font">
           <nav>
-            <ul>
-              <li>
+            <ul id="pagination">
+              <!-- <li>
                 <button
                   type="button"
                   class="pagination-arrow pagination-prev"
@@ -275,7 +301,7 @@
                   </svg>
                 </button>
               </li>
-              <li><a href="/">1</a></li>
+              <li><a href="/" class="active">1</a></li>
               <li><a href="/">2</a></li>
               <li><a href="/">3</a></li>
               <li><a href="/">4</a></li>
@@ -302,7 +328,7 @@
                     />
                   </svg>
                 </button>
-              </li>
+              </li> -->
             </ul>
           </nav>
         </div>
@@ -397,5 +423,105 @@
         </div>
       </div>
     </footer>
+
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const gallery = document.getElementById("gallery");
+    const pagination = document.getElementById("pagination");
+    const cards = Array.from(gallery.children);
+    const cardsPerPage = 16;
+    const totalPages = Math.ceil(cards.length / cardsPerPage);
+    let currentPage = 1;
+
+    // Функция: показать нужные карточки
+    function showPage(page) {
+      // Скрываем все
+      cards.forEach((card) => {
+        card.style.display = "none";
+      });
+
+      // Рассчитываем индексы
+      const start = (page - 1) * cardsPerPage;
+      const end = start + cardsPerPage;
+
+      // Показываем только текущие
+      cards.slice(start, end).forEach((card) => {
+        card.style.display = "block";
+      });
+
+      // Обновляем пагинацию
+      updatePagination(page);
+    }
+
+    // Функция: обновить UI пагинации
+    function updatePagination(page) {
+      pagination.innerHTML = ""; // Очистить
+
+      // Кнопка "Назад"
+      const prevLi = document.createElement("li");
+      const prevBtn = document.createElement("button");
+      prevBtn.type = "button";
+      prevBtn.classList.add("pagination-arrow", "pagination-prev");
+      prevBtn.setAttribute("aria-label", "Предыдущая страница");
+      if (page === 1) prevBtn.disabled = true;
+      prevBtn.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+      prevBtn.addEventListener("click", () => {
+        if (page > 1) showPage(page - 1);
+      });
+      prevLi.appendChild(prevBtn);
+      pagination.appendChild(prevLi);
+
+      // Страницы (показываем максимум 5)
+      const maxVisible = 5;
+      let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+      if (endPage - startPage + 1 < maxVisible) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = "#";
+        a.textContent = i;
+        if (i === page) {
+          a.classList.add("active");
+        }
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage(i);
+        });
+        li.appendChild(a);
+        pagination.appendChild(li);
+      }
+
+      // Кнопка "Вперёд"
+      const nextLi = document.createElement("li");
+      const nextBtn = document.createElement("button");
+      nextBtn.type = "button";
+      nextBtn.classList.add("pagination-arrow", "pagination-next");
+      nextBtn.setAttribute("aria-label", "Следующая страница");
+      if (page === totalPages) nextBtn.disabled = true;
+      nextBtn.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      `;
+      nextBtn.addEventListener("click", () => {
+        if (page < totalPages) showPage(page + 1);
+      });
+      nextLi.appendChild(nextBtn);
+      pagination.appendChild(nextLi);
+    }
+
+    // Инициализация
+    showPage(currentPage);
+  });
+</script>
   </body>
 </html>
