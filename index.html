@@ -278,57 +278,7 @@
         <div class="pagination-gallery pagination-gallery_font">
           <nav>
             <ul id="pagination">
-              <!-- <li>
-                <button
-                  type="button"
-                  class="pagination-arrow pagination-prev"
-                  aria-label="Предыдущая страница"
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M15 18L9 12L15 6"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li><a href="/" class="active">1</a></li>
-              <li><a href="/">2</a></li>
-              <li><a href="/">3</a></li>
-              <li><a href="/">4</a></li>
-              <li><a href="/">5</a></li>
-              <li>
-                <button
-                  type="button"
-                  class="pagination-arrow pagination-next"
-                  aria-label="Следующая страница"
-                >
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9 18L15 12L9 6"
-                      stroke="white"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
-                </button>
-              </li> -->
+
             </ul>
           </nav>
         </div>
@@ -432,40 +382,32 @@
     const cardsPerPage = 16;
     const totalPages = Math.ceil(cards.length / cardsPerPage);
     let currentPage = 1;
-    let visibleCardsCount = cardsPerPage; // Только для режима "Показать еще"
+    let visibleCardsCount = cardsPerPage;
     const loadMoreBtn = document.querySelector(".btn-gallery");
 
-    // === ПАГИНАЦИЯ: показывает только текущую страницу ===
     function showPage(page) {
       currentPage = page;
 
-      // Скрываем все карточки
       cards.forEach((card) => {
         card.style.display = "none";
       });
 
-      // Показываем только 16 карточек текущей страницы
       const start = (page - 1) * cardsPerPage;
       const end = start + cardsPerPage;
       cards.slice(start, end).forEach((card) => {
         card.style.display = "block";
       });
 
-      // === ВАЖНО: при использовании пагинации — возвращаем кнопку,
-      // если не все карточки были подгружены через "Показать еще"
       if (visibleCardsCount < cards.length) {
-        loadMoreBtn.style.display = "block"; // Принудительно показываем
+        loadMoreBtn.style.display = "block";
       }
 
-      // Обновляем UI пагинации
       updatePagination(page);
     }
 
-    // === ОБНОВЛЕНИЕ ПАГИНАЦИИ ===
     function updatePagination(page) {
       pagination.innerHTML = "";
 
-      // Кнопка "Назад"
       const prevLi = document.createElement("li");
       const prevBtn = document.createElement("button");
       prevBtn.type = "button";
@@ -481,7 +423,6 @@
       prevLi.appendChild(prevBtn);
       pagination.appendChild(prevLi);
 
-      // Диапазон страниц (максимум 5)
       const maxVisible = 5;
       let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
       let endPage = Math.min(totalPages, startPage + maxVisible - 1);
@@ -504,7 +445,6 @@
         pagination.appendChild(li);
       }
 
-      // Кнопка "Вперёд"
       const nextLi = document.createElement("li");
       const nextBtn = document.createElement("button");
       nextBtn.type = "button";
@@ -521,24 +461,20 @@
       pagination.appendChild(nextLi);
     }
 
-    // === КНОПКА "ПОКАЗАТЬ ЕЩЁ" ===
     loadMoreBtn.addEventListener("click", function () {
       const nextBatchEnd = Math.min(visibleCardsCount + cardsPerPage, cards.length);
 
-      // Показываем следующие 16
       for (let i = visibleCardsCount; i < nextBatchEnd; i++) {
         cards[i].style.display = "block";
       }
 
       visibleCardsCount = nextBatchEnd;
 
-      // Скрываем кнопку, если все карточки показаны
       if (visibleCardsCount >= cards.length) {
         loadMoreBtn.style.display = "none";
       }
     });
 
-    // === ИНИЦИАЛИЗАЦИЯ: сначала показываем первую страницу ===
     showPage(currentPage);
   });
 </script>
