@@ -432,30 +432,38 @@
     const cardsPerPage = 16;
     const totalPages = Math.ceil(cards.length / cardsPerPage);
     let currentPage = 1;
+    let visibleCardsCount = cardsPerPage; // Только для режима "Показать еще"
+    const loadMoreBtn = document.querySelector(".btn-gallery");
 
-    // Функция: показать нужные карточки
+    // === ПАГИНАЦИЯ: показывает только текущую страницу ===
     function showPage(page) {
-      // Скрываем все
+      currentPage = page;
+
+      // Скрываем все карточки
       cards.forEach((card) => {
         card.style.display = "none";
       });
 
-      // Рассчитываем индексы
+      // Показываем только 16 карточек текущей страницы
       const start = (page - 1) * cardsPerPage;
       const end = start + cardsPerPage;
-
-      // Показываем только текущие
       cards.slice(start, end).forEach((card) => {
         card.style.display = "block";
       });
 
-      // Обновляем пагинацию
+      // === ВАЖНО: при использовании пагинации — возвращаем кнопку,
+      // если не все карточки были подгружены через "Показать еще"
+      if (visibleCardsCount < cards.length) {
+        loadMoreBtn.style.display = "block"; // Принудительно показываем
+      }
+
+      // Обновляем UI пагинации
       updatePagination(page);
     }
 
-    // Функция: обновить UI пагинации
+    // === ОБНОВЛЕНИЕ ПАГИНАЦИИ ===
     function updatePagination(page) {
-      pagination.innerHTML = ""; // Очистить
+      pagination.innerHTML = "";
 
       // Кнопка "Назад"
       const prevLi = document.createElement("li");
@@ -469,13 +477,11 @@
           <path d="M15 18L9 12L15 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       `;
-      prevBtn.addEventListener("click", () => {
-        if (page > 1) showPage(page - 1);
-      });
+      prevBtn.addEventListener("click", () => showPage(page - 1));
       prevLi.appendChild(prevBtn);
       pagination.appendChild(prevLi);
 
-      // Страницы (показываем максимум 5)
+      // Диапазон страниц (максимум 5)
       const maxVisible = 5;
       let startPage = Math.max(1, page - Math.floor(maxVisible / 2));
       let endPage = Math.min(totalPages, startPage + maxVisible - 1);
@@ -489,9 +495,7 @@
         const a = document.createElement("a");
         a.href = "#";
         a.textContent = i;
-        if (i === page) {
-          a.classList.add("active");
-        }
+        if (i === page) a.classList.add("active");
         a.addEventListener("click", (e) => {
           e.preventDefault();
           showPage(i);
@@ -512,14 +516,29 @@
           <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       `;
-      nextBtn.addEventListener("click", () => {
-        if (page < totalPages) showPage(page + 1);
-      });
+      nextBtn.addEventListener("click", () => showPage(page + 1));
       nextLi.appendChild(nextBtn);
       pagination.appendChild(nextLi);
     }
 
-    // Инициализация
+    // === КНОПКА "ПОКАЗАТЬ ЕЩЁ" ===
+    loadMoreBtn.addEventListener("click", function () {
+      const nextBatchEnd = Math.min(visibleCardsCount + cardsPerPage, cards.length);
+
+      // Показываем следующие 16
+      for (let i = visibleCardsCount; i < nextBatchEnd; i++) {
+        cards[i].style.display = "block";
+      }
+
+      visibleCardsCount = nextBatchEnd;
+
+      // Скрываем кнопку, если все карточки показаны
+      if (visibleCardsCount >= cards.length) {
+        loadMoreBtn.style.display = "none";
+      }
+    });
+
+    // === ИНИЦИАЛИЗАЦИЯ: сначала показываем первую страницу ===
     showPage(currentPage);
   });
 </script>
