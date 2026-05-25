@@ -85,7 +85,7 @@
 
 .gallery {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 28px;
   margin-bottom: 64px;
@@ -94,7 +94,7 @@
 .card {
   width: 656px;
   height: 512px;
-  border: 1px solid;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .button-gallery {
@@ -189,6 +189,12 @@
   color: #fff;
 }
 
+.pagination-gallery li a.active,
+.pagination-gallery li a:where(:target, :hover) {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
 @media (max-width: 1024px) {
   .filters {
     grid-template-columns: repeat(2, 1fr);
@@ -199,11 +205,20 @@
     gap: 20px;
     align-items: center;
   }
+
+  .card {
+    width: 480px;
+  }
 }
 
 @media (max-width: 600px) {
   .filters {
     grid-template-columns: 1fr;
     padding: 20px 20px 30px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 400px;
   }
 }
